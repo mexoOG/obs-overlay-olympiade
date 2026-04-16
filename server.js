@@ -9,8 +9,20 @@ const io = new Server(server);
 app.use(express.static("public"));
 
 let state = {
-  left: { name: "Marlov", score: 0, color: "#ff0044" },
-  right: { name: "Marlon", score: 0, color: "#00aaff" },
+  left: {
+    name: "Marlov",
+    score: 0,
+    color: "#ff0044",
+    border: "#ffffff",
+    nameSize: 32
+  },
+  right: {
+    name: "Marlon",
+    score: 0,
+    color: "#00aaff",
+    border: "#ffffff",
+    nameSize: 32
+  },
   round: 1,
   timer: 0,
   timerRunning: false
@@ -27,8 +39,18 @@ setInterval(() => {
 io.on("connection", (socket) => {
   socket.emit("state", state);
 
-  socket.on("score", ({ side, delta }) => {
-    state[side].score += delta;
+  socket.on("scoreAdd", ({ side, amount }) => {
+    state[side].score += amount;
+    io.emit("state", state);
+  });
+
+  socket.on("scoreRemoveRequest", (data) => {
+    io.emit("scoreRemovePopup", data);
+  });
+
+  socket.on("scoreRemoveConfirm", ({ side, amount }) => {
+    state[side].score -= amount;
+    if (state[side].score < 0) state[side].score = 0;
     io.emit("state", state);
   });
 
@@ -38,8 +60,8 @@ io.on("connection", (socket) => {
     io.emit("state", state);
   });
 
-  socket.on("timerStart", () => (state.timerRunning = true));
-  socket.on("timerStop", () => (state.timerRunning = false));
+  socket.on("timerStart", () => state.timerRunning = true);
+  socket.on("timerStop", () => state.timerRunning = false);
 
   socket.on("timerReset", () => {
     state.timer = 0;
@@ -52,5 +74,4 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log("Running " + PORT));
+server.listen(3000, () => console.log("RUNNING"));
