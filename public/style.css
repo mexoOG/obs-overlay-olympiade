@@ -7,6 +7,7 @@ html, body {
   color: white;
 }
 
+/* ===== OVERLAY ===== */
 #overlay {
   position: absolute;
   width: 100%;
@@ -20,6 +21,7 @@ html, body {
   transform: translateX(-50%);
   font-size: 34px;
   color: #00aaff;
+  text-shadow: 0 0 10px #00aaff;
 }
 
 .mid {
@@ -32,14 +34,25 @@ html, body {
   align-items: center;
 }
 
-.team {
+/* LEFT = ORANGE */
+#leftBox {
+  padding: 25px 60px;
+  border: 3px solid orange;
+  border-radius: 14px;
+  background: rgba(0,0,0,0.35);
+  box-shadow: 0 0 25px rgba(255,140,0,0.6);
+}
+
+/* RIGHT = BLUE */
+#rightBox {
   padding: 25px 60px;
   border: 3px solid #00aaff;
   border-radius: 14px;
   background: rgba(0,0,0,0.35);
-  box-shadow: 0 0 25px rgba(0,170,255,0.5);
+  box-shadow: 0 0 25px rgba(0,170,255,0.6);
 }
 
+/* TEXT */
 .name {
   font-family: "Comic Sans MS", Arial;
   color: black;
@@ -49,16 +62,19 @@ html, body {
 .score {
   font-size: 80px;
   font-weight: bold;
-  text-shadow: 0 0 10px currentColor;
+  color: white;
 }
 
+/* CENTER */
 .center {
   text-align: center;
 }
 
-/* SETTINGS */
+/* ===== SETTINGS UI ===== */
 .panel {
   padding: 20px;
+  background: radial-gradient(circle at top, #0a0f2a, #000);
+  min-height: 100vh;
 }
 
 .preview {
@@ -66,6 +82,14 @@ html, body {
   height: 260px;
   border: 2px solid #00aaff;
   border-radius: 10px;
+}
+
+/* INPUTS */
+input {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
 }
 
 /* BUTTONS */
