@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: transparent;
+  color: white;
+}
+
+#overlay {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 80px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.box {
+  text-align: center;
+}

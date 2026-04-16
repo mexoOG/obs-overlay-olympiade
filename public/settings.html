@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Settings</h2>
+
+<input id="leftNameInput" placeholder="Left Name">
+<input id="rightNameInput" placeholder="Right Name">
+
+<button onclick="updateNames()">Update</button>
+
+<br><br>
+
+<button onclick="score('left',1)">Left +</button>
+<button onclick="score('left',-1)">Left -</button>
+
+<button onclick="score('right',1)">Right +</button>
+<button onclick="score('right',-1)">Right -</button>
+
+<br><br>
+
+<button onclick="round(1)">Round +</button>
+<button onclick="round(-1)">Round -</button>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+
+</body>
+</html>
