@@ -13,23 +13,34 @@
 
   <div class="mid">
 
-    <div class="team left" id="leftBox">
-      <div id="leftName"></div>
+    <div class="team" id="leftBox">
+      <div class="name" id="leftName"></div>
       <div class="score" id="leftScore"></div>
     </div>
 
     <div class="center">
-      <div class="round">ROUND</div>
+      <div>ROUND</div>
       <div id="round">1</div>
     </div>
 
-    <div class="team right" id="rightBox">
-      <div id="rightName"></div>
+    <div class="team" id="rightBox">
+      <div class="name" id="rightName"></div>
       <div class="score" id="rightScore"></div>
     </div>
 
   </div>
 
+</div>
+
+<!-- POPUP -->
+<div id="popup" class="popup hidden">
+  <div class="popupBox">
+    <h2>⚠ Punkte Abzug</h2>
+    <div id="popupPlayer"></div>
+    <div id="popupAmount"></div>
+    <button onclick="confirmRemove()">Bestätigen</button>
+    <button onclick="closePopup()">Abbrechen</button>
+  </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
