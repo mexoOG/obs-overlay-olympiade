@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="overlay">
-  <div class="box left">
-    <div id="leftName">Kevin</div>
-    <div id="leftScore">0</div>
+  <div class="team left">
+    <div id="leftName"></div>
+    <div id="leftScore" class="score"></div>
   </div>
 
-  <div class="box center">
-    <div>ROUND</div>
-    <div id="round">1</div>
+  <div class="center">
+    <div class="round">ROUND <span id="round"></span></div>
+    <div id="lastAction"></div>
   </div>
 
-  <div class="box right">
-    <div id="rightName">Basti</div>
-    <div id="rightScore">0</div>
+  <div class="team right">
+    <div id="rightName"></div>
+    <div id="rightScore" class="score"></div>
   </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="client.js"></script>
-
 </body>
 </html>
