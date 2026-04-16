@@ -7,7 +7,7 @@ html, body {
   color: white;
 }
 
-/* ===== OVERLAY ===== */
+/* OVERLAY */
 #overlay {
   position: absolute;
   width: 100%;
@@ -16,7 +16,7 @@ html, body {
 
 .top {
   position: absolute;
-  top: 30px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 34px;
@@ -34,22 +34,22 @@ html, body {
   align-items: center;
 }
 
-/* LEFT = ORANGE */
+/* LEFT BOX */
 #leftBox {
   padding: 25px 60px;
   border: 3px solid orange;
   border-radius: 14px;
   background: rgba(0,0,0,0.35);
-  box-shadow: 0 0 25px rgba(255,140,0,0.6);
+  box-shadow: 0 0 25px rgba(255,140,0,0.5);
 }
 
-/* RIGHT = BLUE */
+/* RIGHT BOX */
 #rightBox {
   padding: 25px 60px;
   border: 3px solid #00aaff;
   border-radius: 14px;
   background: rgba(0,0,0,0.35);
-  box-shadow: 0 0 25px rgba(0,170,255,0.6);
+  box-shadow: 0 0 25px rgba(0,170,255,0.5);
 }
 
 /* TEXT */
@@ -70,7 +70,7 @@ html, body {
   text-align: center;
 }
 
-/* ===== SETTINGS UI ===== */
+/* SETTINGS */
 .panel {
   padding: 20px;
   background: radial-gradient(circle at top, #0a0f2a, #000);
@@ -82,14 +82,6 @@ html, body {
   height: 260px;
   border: 2px solid #00aaff;
   border-radius: 10px;
-}
-
-/* INPUTS */
-input {
-  margin: 5px;
-  padding: 5px;
-  border-radius: 5px;
-  border: none;
 }
 
 /* BUTTONS */
@@ -104,18 +96,8 @@ button {
   cursor: pointer;
 }
 
-/* POPUP */
-.popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  background: rgba(0,0,0,0.95);
-  border: 2px solid #00aaff;
-  padding: 30px;
-  border-radius: 15px;
-}
-
-.hidden {
-  display: none;
+/* INPUT */
+input {
+  margin: 5px;
+  padding: 5px;
 }
