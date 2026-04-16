@@ -7,29 +7,31 @@
 
 <div class="panel">
 
-<h1>⚙️ OBS SETTINGS</h1>
+<h1>SETTINGS</h1>
 
-<!-- LIVE PREVIEW -->
 <iframe src="/overlay.html" class="preview"></iframe>
 
+<h3>LEFT TEAM</h3>
+<input id="leftName" placeholder="Name">
+<input type="color" id="leftColor">
+<input type="color" id="leftBorder">
+<input type="range" min="20" max="80" id="leftSize">
+
+<h3>RIGHT TEAM</h3>
+<input id="rightName" placeholder="Name">
+<input type="color" id="rightColor">
+<input type="color" id="rightBorder">
+<input type="range" min="20" max="80" id="rightSize">
+
 <br><br>
 
-<input id="leftName" placeholder="Left Name">
-<input id="rightName" placeholder="Right Name">
+<button onclick="scoreAdd('left',1)">+1 Left</button>
+<button onclick="scoreAdd('left',-1)">-1 Left</button>
+
+<button onclick="scoreAdd('right',1)">+1 Right</button>
+<button onclick="scoreAdd('right',-1)">-1 Right</button>
 
 <br><br>
-
-<button onclick="score('left',1)">Left +</button>
-<button onclick="score('right',1)">Right +</button>
-
-<br>
-
-<button onclick="round(1)">Round +</button>
-<button onclick="round(-1)">Round -</button>
-
-<hr>
-
-<h2>⏱ TIMER</h2>
 
 <button onclick="timerStart()">START</button>
 <button onclick="timerStop()">STOP</button>
