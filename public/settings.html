@@ -8,29 +8,41 @@
 
 <div class="panel">
 
-<h1>⚙ SETTINGS PANEL</h1>
+<h1>⚙ SETTINGS</h1>
 
 <iframe src="/overlay.html" class="preview"></iframe>
 
-<h2>LEFT (ORANGE)</h2>
+<hr>
+
+<h2>LEFT TEAM</h2>
 <input id="leftName" placeholder="Name">
 <label>Name Size</label>
 <input type="range" id="leftSize" min="20" max="80">
 
-<h2>RIGHT (BLUE)</h2>
+<h2>RIGHT TEAM</h2>
 <input id="rightName" placeholder="Name">
 <label>Name Size</label>
 <input type="range" id="rightSize" min="20" max="80">
 
 <hr>
 
-<h2>SCORE</h2>
+<h2>ROUND CONTROL</h2>
+<button onclick="roundChange(-1)">-</button>
+<button onclick="roundChange(1)">+</button>
 
-<button onclick="score('left',1)">Left +</button>
-<button onclick="score('left',-1)">Left -</button>
+<input id="roundInput" placeholder="Set Round">
+<button onclick="setRound()">SET</button>
 
-<button onclick="score('right',1)">Right +</button>
-<button onclick="score('right',-1)">Right -</button>
+<hr>
+
+<h2>SCORE CONTROL</h2>
+
+<input id="scoreAmount" placeholder="Points (z.B. 3 oder -5)">
+
+<br><br>
+
+<button onclick="score('left')">Left +/-</button>
+<button onclick="score('right')">Right +/-</button>
 
 <hr>
 
