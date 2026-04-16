@@ -1,89 +1,36 @@
-html, body {
+body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent !important;
-  overflow: hidden;
   font-family: Arial;
-}
-
-/* OVERLAY WRAPPER */
-#overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-/* TIMER */
-.top {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 34px;
-  font-weight: bold;
-  color: #00aaff;
-  text-shadow: 0 0 10px #00aaff;
-}
-
-/* CENTER LAYOUT */
-.mid {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  gap: 140px;
-  align-items: center;
-}
-
-/* TEAM BOX */
-.team {
-  padding: 25px 60px;
-  border-radius: 15px;
-  border: 3px solid #00aaff;
-  background: rgba(0,0,0,0.35);
-  box-shadow: 0 0 25px rgba(0,170,255,0.6);
-  text-align: center;
-}
-
-/* NAME */
-.name {
-  font-size: 32px;
-  color: black;
-  text-shadow: 2px 2px 0px white;
-  font-family: "Comic Sans MS", Arial;
-}
-
-/* SCORE */
-.score {
-  font-size: 80px;
-  color: #00aaff;
-  font-weight: bold;
-  text-shadow: 0 0 15px #00aaff;
-}
-
-/* CENTER */
-.center {
+  background: radial-gradient(circle at top, #0a0f2a, #000);
   color: white;
-  text-align: center;
 }
 
-/* POPUP */
-.popup {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,0.95);
+/* SETTINGS PANEL */
+.panel {
+  padding: 20px;
+}
+
+/* PREVIEW */
+.preview {
+  width: 850px;
+  height: 260px;
   border: 2px solid #00aaff;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  box-shadow: 0 0 30px #00aaff;
+  border-radius: 10px;
 }
 
-.hidden {
-  display: none;
+/* BUTTONS */
+button {
+  margin: 5px;
+  padding: 10px 15px;
+  background: #00aaff;
+  border: none;
+  border-radius: 8px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* INPUTS */
+input {
+  margin: 5px;
 }
