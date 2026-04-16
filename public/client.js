@@ -2,40 +2,43 @@ const socket = io();
 
 socket.on("state", (s) => {
 
-  // overlay update
-  if (document.getElementById("leftScore")) {
+  // TEXT
+  document.getElementById("leftName").textContent = s.left.name;
+  document.getElementById("rightName").textContent = s.right.name;
 
-    document.getElementById("leftName").textContent = s.left.name;
-    document.getElementById("rightName").textContent = s.right.name;
+  document.getElementById("leftScore").textContent = s.left.score;
+  document.getElementById("rightScore").textContent = s.right.score;
 
-    document.getElementById("leftScore").textContent = s.left.score;
-    document.getElementById("rightScore").textContent = s.right.score;
+  document.getElementById("round").textContent = s.round;
 
-    document.getElementById("round").textContent = s.round;
+  // TIMER
+  let m = Math.floor(s.timer / 60);
+  let sec = s.timer % 60;
 
-    // TIMER
-    let m = Math.floor(s.timer / 60);
-    let sec = s.timer % 60;
+  document.getElementById("timer").textContent =
+    String(m).padStart(2, "0") + ":" + String(sec).padStart(2, "0");
 
-    document.getElementById("timer").textContent =
-      String(m).padStart(2, "0") + ":" + String(sec).padStart(2, "0");
-  }
+  // 🎨 TEAM COLORS (IMPORTANT FIX)
+  document.getElementById("leftBox").style.borderColor = s.left.color;
+  document.getElementById("leftBox").style.boxShadow = `0 0 20px ${s.left.color}`;
+  document.getElementById("leftScore").style.color = s.left.color;
 
-  // settings sync inputs
-  if (document.getElementById("leftName") && document.getElementById("leftName").tagName === "INPUT") {
-    document.getElementById("leftName").value = s.left.name;
-    document.getElementById("rightName").value = s.right.name;
-  }
+  document.getElementById("rightBox").style.borderColor = s.right.color;
+  document.getElementById("rightBox").style.boxShadow = `0 0 20px ${s.right.color}`;
+  document.getElementById("rightScore").style.color = s.right.color;
 });
 
+// SCORE
 function score(side, delta) {
   socket.emit("score", { side, delta });
 }
 
+// ROUND
 function round(delta) {
   socket.emit("round", delta);
 }
 
+// TIMER
 function timerStart() {
   socket.emit("timerStart");
 }
