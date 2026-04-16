@@ -8,23 +8,23 @@
 
 <div class="panel">
 
-<h1>SETTINGS</h1>
+<h1>⚙ SETTINGS PANEL</h1>
 
 <iframe src="/overlay.html" class="preview"></iframe>
 
-<h2>LEFT</h2>
+<h2>LEFT (ORANGE)</h2>
 <input id="leftName" placeholder="Name">
-<input type="color" id="leftColor">
-<input type="color" id="leftBorder">
+<label>Name Size</label>
 <input type="range" id="leftSize" min="20" max="80">
 
-<h2>RIGHT</h2>
+<h2>RIGHT (BLUE)</h2>
 <input id="rightName" placeholder="Name">
-<input type="color" id="rightColor">
-<input type="color" id="rightBorder">
+<label>Name Size</label>
 <input type="range" id="rightSize" min="20" max="80">
 
 <hr>
+
+<h2>SCORE</h2>
 
 <button onclick="score('left',1)">Left +</button>
 <button onclick="score('left',-1)">Left -</button>
@@ -34,9 +34,10 @@
 
 <hr>
 
-<button onclick="timerStart()">Start</button>
-<button onclick="timerStop()">Stop</button>
-<button onclick="timerReset()">Reset</button>
+<h2>TIMER</h2>
+<button onclick="timerStart()">START</button>
+<button onclick="timerStop()">STOP</button>
+<button onclick="timerReset()">RESET</button>
 
 </div>
 
