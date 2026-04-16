@@ -1,7 +1,5 @@
 const socket = io();
 
-let pending = null;
-
 socket.on("state", (s) => {
 
   // OVERLAY
@@ -15,18 +13,11 @@ socket.on("state", (s) => {
 
     document.getElementById("round").textContent = s.round;
 
-    let m = Math.floor(s.timer / 60);
-    let sec = s.timer % 60;
-    document.getElementById("timer").textContent =
-      String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
-
-    // COLORS + BORDERS
+    // APPLY COLORS
     document.getElementById("leftBox").style.borderColor = s.left.border;
-    document.getElementById("leftBox").style.boxShadow = `0 0 20px ${s.left.color}`;
     document.getElementById("leftScore").style.color = s.left.color;
 
     document.getElementById("rightBox").style.borderColor = s.right.border;
-    document.getElementById("rightBox").style.boxShadow = `0 0 20px ${s.right.color}`;
     document.getElementById("rightScore").style.color = s.right.color;
 
     // NAME SIZE
@@ -34,41 +25,46 @@ socket.on("state", (s) => {
     document.getElementById("rightName").style.fontSize = s.right.nameSize + "px";
   }
 
-  // SETTINGS SYNC
+  // SETTINGS INPUT SYNC
   if (document.getElementById("leftName") && document.getElementById("leftName").tagName === "INPUT") {
     document.getElementById("leftName").value = s.left.name;
     document.getElementById("rightName").value = s.right.name;
   }
 });
 
-// SCORE ADD
-function scoreAdd(side, amount) {
+/* SCORE ADD */
+function add(side, amount) {
   socket.emit("scoreAdd", { side, amount });
 }
 
-// REMOVE REQUEST (POPUP)
-function scoreRemoveRequest(side, amount) {
-  socket.emit("scoreRemoveRequest", { side, amount });
+/* SCORE REMOVE */
+function remove(side, amount) {
+  socket.emit("scoreAdd", { side, amount: -amount });
 }
 
-// CONFIRM POPUP
-socket.on("scoreRemovePopup", (data) => {
-  pending = data;
-  document.getElementById("popup").classList.remove("hidden");
-  document.getElementById("popupPlayer").textContent = data.side;
-  document.getElementById("popupAmount").textContent = "-" + data.amount;
-});
-
-function confirmRemove() {
-  socket.emit("scoreRemoveConfirm", pending);
-  closePopup();
-}
-
-function closePopup() {
-  document.getElementById("popup").classList.add("hidden");
-}
-
-// TIMER
+/* TIMER */
 function timerStart(){ socket.emit("timerStart"); }
 function timerStop(){ socket.emit("timerStop"); }
 function timerReset(){ socket.emit("timerReset"); }
+
+/* UPDATE SETTINGS LIVE */
+setInterval(() => {
+
+  const data = {
+    left: {
+      name: document.getElementById("leftName")?.value,
+      color: document.getElementById("leftColor")?.value,
+      border: document.getElementById("leftBorder")?.value,
+      nameSize: parseInt(document.getElementById("leftSize")?.value || 32)
+    },
+    right: {
+      name: document.getElementById("rightName")?.value,
+      color: document.getElementById("rightColor")?.value,
+      border: document.getElementById("rightBorder")?.value,
+      nameSize: parseInt(document.getElementById("rightSize")?.value || 32)
+    }
+  };
+
+  socket.emit("update", data);
+
+}, 300);
