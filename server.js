@@ -39,37 +39,38 @@ setInterval(() => {
 io.on("connection", (socket) => {
   socket.emit("state", state);
 
+  // SCORE ADD / REMOVE
   socket.on("scoreAdd", ({ side, amount }) => {
     state[side].score += amount;
-    io.emit("state", state);
-  });
-
-  socket.on("scoreRemoveRequest", (data) => {
-    io.emit("scoreRemovePopup", data);
-  });
-
-  socket.on("scoreRemoveConfirm", ({ side, amount }) => {
-    state[side].score -= amount;
     if (state[side].score < 0) state[side].score = 0;
     io.emit("state", state);
   });
 
+  // ROUND
   socket.on("round", (delta) => {
     state.round += delta;
     if (state.round < 1) state.round = 1;
     io.emit("state", state);
   });
 
-  socket.on("timerStart", () => state.timerRunning = true);
-  socket.on("timerStop", () => state.timerRunning = false);
+  // TIMER
+  socket.on("timerStart", () => {
+    state.timerRunning = true;
+  });
+
+  socket.on("timerStop", () => {
+    state.timerRunning = false;
+  });
 
   socket.on("timerReset", () => {
     state.timer = 0;
     io.emit("state", state);
   });
 
+  // SETTINGS UPDATE (WICHTIG FIX)
   socket.on("update", (data) => {
-    state = { ...state, ...data };
+    state.left = { ...state.left, ...data.left };
+    state.right = { ...state.right, ...data.right };
     io.emit("state", state);
   });
 });
