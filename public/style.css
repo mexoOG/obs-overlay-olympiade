@@ -1,9 +1,9 @@
 body {
   margin: 0;
+  background: transparent;
   font-family: Arial;
-  background: transparent; /* IMPORTANT OBS FIX */
-  overflow: hidden;
   color: white;
+  overflow: hidden;
 }
 
 #overlay {
@@ -16,8 +16,8 @@ body {
 
 .top {
   font-size: 32px;
-  margin-bottom: 20px;
   color: #00aaff;
+  margin-bottom: 20px;
 }
 
 .mid {
@@ -27,23 +27,46 @@ body {
   align-items: center;
 }
 
-/* TEAM BOX */
 .team {
   padding: 25px 60px;
   border: 3px solid white;
   border-radius: 12px;
   background: rgba(0,0,0,0.35);
-  transition: 0.3s;
 }
 
-/* SCORE */
 .score {
-  font-size: 80px;
+  font-size: 70px;
   font-weight: bold;
-  text-shadow: 0 0 10px currentColor;
 }
 
-/* ROUND */
-.center {
+.name {
+  font-family: "Comic Sans MS", Arial;
+  color: black;
+}
+
+.panel {
+  padding: 20px;
+}
+
+.preview {
+  width: 800px;
+  height: 250px;
+  border: 2px solid #00aaff;
+}
+
+/* POPUP */
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: rgba(0,0,0,0.9);
+  border: 2px solid #00aaff;
+  padding: 30px;
+  border-radius: 15px;
   text-align: center;
+}
+
+.hidden {
+  display: none;
 }
