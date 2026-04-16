@@ -1,11 +1,13 @@
 body {
   margin: 0;
-  background: transparent;
-  font-family: Arial;
+  padding: 0;
+  background: radial-gradient(circle at top, #0a0f2a, #000);
+  font-family: Arial, sans-serif;
   color: white;
   overflow: hidden;
 }
 
+/* OVERLAY */
 #overlay {
   position: absolute;
   top: 50px;
@@ -14,12 +16,16 @@ body {
   text-align: center;
 }
 
+/* TOP TIMER */
 .top {
-  font-size: 32px;
+  font-size: 34px;
+  font-weight: bold;
   color: #00aaff;
+  text-shadow: 0 0 10px #00aaff;
   margin-bottom: 20px;
 }
 
+/* MAIN LAYOUT */
 .mid {
   display: flex;
   gap: 120px;
@@ -27,31 +33,62 @@ body {
   align-items: center;
 }
 
+/* TEAM BOXES */
 .team {
   padding: 25px 60px;
-  border: 3px solid white;
-  border-radius: 12px;
-  background: rgba(0,0,0,0.35);
+  border-radius: 14px;
+  border: 3px solid #00aaff;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 25px rgba(0, 170, 255, 0.5);
+  transition: 0.2s;
 }
 
-.score {
-  font-size: 70px;
-  font-weight: bold;
-}
-
+/* NAME (CARTOON CLEAN STYLE) */
 .name {
-  font-family: "Comic Sans MS", Arial;
-  color: black;
+  font-family: "Arial Rounded MT Bold", "Comic Sans MS", sans-serif;
+  font-size: 32px;
+  color: white;
+  text-shadow: 2px 2px 0px black;
 }
 
+/* SCORE */
+.score {
+  font-size: 80px;
+  font-weight: bold;
+  color: #00aaff;
+  text-shadow: 0 0 15px #00aaff;
+}
+
+/* CENTER ROUND */
+.center {
+  font-size: 22px;
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+/* SETTINGS PANEL */
 .panel {
   padding: 20px;
+  color: white;
 }
 
 .preview {
   width: 800px;
-  height: 250px;
+  height: 260px;
   border: 2px solid #00aaff;
+  border-radius: 10px;
+}
+
+/* BUTTONS */
+button {
+  margin: 5px;
+  padding: 10px 15px;
+  background: #00aaff;
+  border: none;
+  border-radius: 8px;
+  color: black;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 /* POPUP */
@@ -59,12 +96,13 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
-  background: rgba(0,0,0,0.9);
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.92);
   border: 2px solid #00aaff;
   padding: 30px;
   border-radius: 15px;
   text-align: center;
+  box-shadow: 0 0 30px #00aaff;
 }
 
 .hidden {
