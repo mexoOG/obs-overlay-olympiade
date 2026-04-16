@@ -8,45 +8,35 @@
 
 <div class="panel">
 
-<h1>⚙ SETTINGS PANEL</h1>
+<h1>SETTINGS</h1>
 
 <iframe src="/overlay.html" class="preview"></iframe>
 
-<h2>LEFT TEAM</h2>
+<h2>LEFT</h2>
 <input id="leftName" placeholder="Name">
 <input type="color" id="leftColor">
 <input type="color" id="leftBorder">
-<br>
-<label>Name Size</label>
 <input type="range" id="leftSize" min="20" max="80">
 
-<br><br>
-
-<h2>RIGHT TEAM</h2>
+<h2>RIGHT</h2>
 <input id="rightName" placeholder="Name">
 <input type="color" id="rightColor">
 <input type="color" id="rightBorder">
-<br>
-<label>Name Size</label>
 <input type="range" id="rightSize" min="20" max="80">
 
 <hr>
 
-<h2>SCORE CONTROL</h2>
+<button onclick="score('left',1)">Left +</button>
+<button onclick="score('left',-1)">Left -</button>
 
-<button onclick="add('left',1)">Left +</button>
-<button onclick="remove('left',1)">Left -</button>
-
-<button onclick="add('right',1)">Right +</button>
-<button onclick="remove('right',1)">Right -</button>
+<button onclick="score('right',1)">Right +</button>
+<button onclick="score('right',-1)">Right -</button>
 
 <hr>
 
-<h2>TIMER</h2>
-
-<button onclick="timerStart()">START</button>
-<button onclick="timerStop()">STOP</button>
-<button onclick="timerReset()">RESET</button>
+<button onclick="timerStart()">Start</button>
+<button onclick="timerStop()">Stop</button>
+<button onclick="timerReset()">Reset</button>
 
 </div>
 
