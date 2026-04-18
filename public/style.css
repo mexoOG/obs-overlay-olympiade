@@ -101,3 +101,10 @@ input {
   margin: 5px;
   padding: 5px;
 }
+
+.gameText {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #00aaff;
+  opacity: 0.9;
+}
