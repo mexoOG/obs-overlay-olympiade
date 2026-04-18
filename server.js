@@ -1,152 +1,90 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial;
-  background: transparent;
-  color: white;
-  overflow: hidden;
-}
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
 
-/* 🔥 SETTINGS DESIGN FIX */
-.panel {
-  min-height: 100vh;
-  padding: 20px;
-  background: radial-gradient(circle at top, #0a0f2a, #000);
-}
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
-/* PREVIEW */
-.preview {
-  width: 900px;
-  height: 260px;
-  border: 2px solid #00aaff;
-  border-radius: 10px;
-}
+app.use(express.static("public"));
 
-/* BUTTONS */
-button {
-  margin: 5px;
-  padding: 10px 15px;
-  background: #00aaff;
-  border: none;
-  border-radius: 8px;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-}
+let state = {
+  left: { name: "Marlov", score: 0 },
+  right: { name: "Marlon", score: 0 },
+  round: 1,
+  game: "Game 1",
+  winner: null,
+  winPoints: 5,
+  timer: 0,
+  timerRunning: false
+};
 
-/* INPUT */
-input {
-  margin: 5px;
-  padding: 6px;
-  border-radius: 6px;
-  border: none;
-}
+// TIMER LOOP
+setInterval(() => {
+  if (state.timerRunning) {
+    state.timer++;
+    io.emit("state", state);
+  }
+}, 1000);
 
-/* 🔥 TIMER (JETZT DEFINITIV SICHTBAR) */
-#timer {
-  position: absolute;
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 36px;
-  color: #00aaff;
-  text-shadow: 0 0 12px #00aaff;
-  z-index: 9999;
-}
+io.on("connection", (socket) => {
+  socket.emit("state", state);
 
-/* MAIN CENTER */
-.main {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  display: flex;
-  gap: 80px;
-  align-items: center;
-}
+  socket.on("scoreAdd", ({ side, amount }) => {
+    if (state.winner) return;
 
-/* TEAM BOXES */
-.team {
-  padding: 20px 50px;
-  background: rgba(0,0,0,0.4);
-  border-radius: 12px;
-}
+    state[side].score += Number(amount);
+    if (state[side].score < 0) state[side].score = 0;
 
-#leftBox {
-  border: 3px solid orange;
-}
+    if (state[side].score >= state.winPoints) {
+      state.winner = side;
+    }
 
-#rightBox {
-  border: 3px solid #00aaff;
-}
+    io.emit("state", state);
+  });
 
-/* TEXT */
-.name {
-  font-family: "Comic Sans MS";
-  color: black;
-  text-shadow: 2px 2px white;
-}
+  socket.on("timerStart", () => state.timerRunning = true);
+  socket.on("timerStop", () => state.timerRunning = false);
 
-.scoreWrap {
-  position: relative;
-  height: 80px;
-  overflow: hidden;
-}
+  socket.on("timerReset", () => {
+    state.timer = 0;
+    io.emit("state", state);
+  });
 
-.score {
-  font-size: 70px;
-}
+  socket.on("roundChange", (d) => {
+    state.round += d;
+    if (state.round < 1) state.round = 1;
+    io.emit("state", state);
+  });
 
-/* CENTER */
-.centerBlock {
-  text-align: center;
-}
+  socket.on("gameSet", (v) => {
+    state.game = v;
+    io.emit("state", state);
+  });
 
-.roundLabel {
-  font-size: 18px;
-  opacity: 0.7;
-}
+  socket.on("setWinPoints", (v) => {
+    state.winPoints = Math.max(1, Number(v));
+    io.emit("state", state);
+  });
 
-#round {
-  font-size: 42px;
-}
+  socket.on("setWinner", (side) => {
+    state.winner = side;
+    io.emit("state", state);
+  });
 
-/* GAME BAR */
-.gameBar {
-  margin-top: 10px;
-  width: 240px;
-  overflow: hidden;
-  background: red;
-  border-radius: 10px;
-  border: 2px solid white;
-}
+  socket.on("clearWinner", () => {
+    state.winner = null;
+    state.left.score = 0;
+    state.right.score = 0;
+    state.timer = 0;
+    io.emit("state", state);
+  });
 
-#gameText {
-  white-space: nowrap;
-  display: inline-block;
-  animation: scroll 8s linear infinite;
-  font-family: "Comic Sans MS";
-}
+  socket.on("update", (data) => {
+    state.left = { ...state.left, ...data.left };
+    state.right = { ...state.right, ...data.right };
+    io.emit("state", state);
+  });
+});
 
-/* SCROLL */
-@keyframes scroll {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
-/* WINNER */
-.winner {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  font-size: 50px;
-  background: gold;
-  color: black;
-  padding: 20px 40px;
-  border-radius: 15px;
-}
-
-.hidden {
-  display: none;
-}
+server.listen(3000, () => console.log("RUNNING"));
