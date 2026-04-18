@@ -8,31 +8,34 @@
 
 <div id="overlay">
 
-  <div class="top">
-    <div id="timer">00:00</div>
-  </div>
+  <div id="timer">00:00</div>
 
   <div class="mid">
 
     <div class="team" id="leftBox">
       <div class="name" id="leftName"></div>
-      <div class="score" id="leftScore"></div>
+      <div class="score" id="leftScore">0</div>
     </div>
 
     <div class="center">
       <div>ROUND</div>
       <div id="round">1</div>
-
-      <!-- 🔥 NEU -->
-      <div id="game" class="gameText">Aktuelles Game: -</div>
     </div>
 
     <div class="team" id="rightBox">
       <div class="name" id="rightName"></div>
-      <div class="score" id="rightScore"></div>
+      <div class="score" id="rightScore">0</div>
     </div>
 
   </div>
+
+  <!-- 🎬 TICKER -->
+  <div class="ticker">
+    <div id="gameText">Aktuelles Game: -</div>
+  </div>
+
+  <!-- 🏆 WINNER -->
+  <div id="winnerBox" class="winner hidden"></div>
 
 </div>
 
