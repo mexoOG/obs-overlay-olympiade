@@ -30,6 +30,23 @@ html, body {
   text-shadow: 2px 2px white;
 }
 
+timer {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 34px;
+  color: #00aaff;
+}
+
+.centerBlock {
+  text-align: center;
+}
+
+#round {
+  font-size: 40px;
+}
+
 .scoreWrap {
   position: relative;
   overflow: hidden;
