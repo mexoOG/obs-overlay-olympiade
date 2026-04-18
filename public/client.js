@@ -1,6 +1,6 @@
 const socket = io();
 
-// SCORE ANIMATION
+/* 🔥 SCORE ANIMATION */
 function animateScore(id, newValue) {
   const el = document.getElementById(id);
   const old = Number(el.textContent);
@@ -9,20 +9,24 @@ function animateScore(id, newValue) {
 
   const newEl = document.createElement("div");
   newEl.className = "score";
-
   newEl.textContent = newValue;
 
-  if (newValue > old) {
-    newEl.style.transform = "translateY(100%)";
-  } else {
-    newEl.style.transform = "translateY(-100%)";
-  }
+  newEl.style.position = "absolute";
+  newEl.style.left = "0";
+  newEl.style.right = "0";
+
+  newEl.style.transform = newValue > old
+    ? "translateY(100%)"
+    : "translateY(-100%)";
 
   el.parentNode.appendChild(newEl);
 
   setTimeout(() => {
+    newEl.style.transition = "0.3s";
     newEl.style.transform = "translateY(0)";
-    el.style.transform = newValue > old ? "translateY(-100%)" : "translateY(100%)";
+    el.style.transform = newValue > old
+      ? "translateY(-100%)"
+      : "translateY(100%)";
   }, 10);
 
   setTimeout(() => {
@@ -32,71 +36,84 @@ function animateScore(id, newValue) {
   }, 300);
 }
 
-// CONFETTI
-function confetti() {
+/* 🎉 REAL CONFETTI */
+function startConfetti() {
   const canvas = document.getElementById("confetti");
-  if (!canvas) return;
-
   const ctx = canvas.getContext("2d");
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  for (let i = 0; i < 120; i++) {
-    ctx.fillStyle = `hsl(${Math.random()*360},100%,50%)`;
-    ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 6,6);
+  let pieces = [];
+
+  for (let i = 0; i < 150; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      size: Math.random() * 8 + 4,
+      speed: Math.random() * 3 + 2,
+      color: `hsl(${Math.random()*360},100%,50%)`
+    });
   }
 
-  setTimeout(() => ctx.clearRect(0,0,canvas.width,canvas.height), 2000);
+  function update() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    pieces.forEach(p => {
+      p.y += p.speed;
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x, p.y, p.size, p.size);
+    });
+
+    requestAnimationFrame(update);
+  }
+
+  update();
+
+  setTimeout(() => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }, 3000);
 }
 
-// STATE
+/* 🔄 STATE */
 socket.on("state", (s) => {
 
-  if (document.getElementById("leftName")) {
-    document.getElementById("leftName").textContent = s.left.name;
-    document.getElementById("rightName").textContent = s.right.name;
-  }
+  document.getElementById("leftName").textContent = s.left.name;
+  document.getElementById("rightName").textContent = s.right.name;
 
-  if (document.getElementById("leftScore")) {
-    animateScore("leftScore", s.left.score);
-    animateScore("rightScore", s.right.score);
-  }
+  animateScore("leftScore", s.left.score);
+  animateScore("rightScore", s.right.score);
 
-  if (document.getElementById("round")) {
-    document.getElementById("round").textContent = s.round;
-  }
+  document.getElementById("round").textContent = s.round;
+  document.getElementById("gameText").textContent =
+    "Aktuelles Game: " + s.game;
 
-  if (document.getElementById("gameText")) {
-    document.getElementById("gameText").textContent =
-      "Aktuelles Game: " + s.game;
-  }
+  // TIMER
+  let m = Math.floor(s.timer / 60);
+  let sec = s.timer % 60;
 
-  // 🔥 TIMER UPDATE
-  if (document.getElementById("timer")) {
-    let m = Math.floor(s.timer / 60);
-    let sec = s.timer % 60;
-
-    document.getElementById("timer").textContent =
-      String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
-  }
+  document.getElementById("timer").textContent =
+    String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
 
   // WINNER
   const w = document.getElementById("winnerBox");
 
-  if (w) {
-    if (s.winner) {
-      w.classList.remove("hidden");
-      const name = s.winner === "left" ? s.left.name : s.right.name;
-      w.textContent = name + " WINS!";
-      confetti();
-    } else {
-      w.classList.add("hidden");
-    }
+  if (s.winner) {
+    w.classList.remove("hidden");
+
+    const name = s.winner === "left"
+      ? s.left.name
+      : s.right.name;
+
+    w.textContent = name + " WINS!";
+
+    startConfetti(); // 🔥 ANIMATION
+  } else {
+    w.classList.add("hidden");
   }
 });
 
-// CONTROLS
+/* CONTROLS */
 function score(side) {
   const amount = Number(document.getElementById("scoreAmount").value || 1);
   socket.emit("scoreAdd", { side, amount });
@@ -132,7 +149,7 @@ function updateSize(){
   });
 }
 
-// 🔥 TIMER FUNKTIONEN
+/* 🔥 TIMER */
 function timerStart(){ socket.emit("timerStart"); }
 function timerStop(){ socket.emit("timerStop"); }
 function timerReset(){ socket.emit("timerReset"); }
