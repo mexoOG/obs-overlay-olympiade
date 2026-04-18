@@ -1,6 +1,5 @@
 const socket = io();
 
-// OVERLAY STATE
 socket.on("state", (s) => {
 
   if (document.getElementById("leftScore")) {
@@ -13,27 +12,24 @@ socket.on("state", (s) => {
 
     document.getElementById("round").textContent = s.round;
 
-    // TIMER CENTER FIX
+    // 🔥 GAME TEXT
+    document.getElementById("game").textContent =
+      "Aktuelles Game: " + (s.game || "-");
+
+    // TIMER
     let m = Math.floor(s.timer / 60);
     let sec = s.timer % 60;
 
-    const timerEl = document.getElementById("timer");
-    timerEl.textContent =
+    document.getElementById("timer").textContent =
       String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
 
-    // COLORS FIX (CLEAN WHITE SCORE)
+    // COLORS
     document.getElementById("leftScore").style.color = "#ffffff";
     document.getElementById("rightScore").style.color = "#ffffff";
 
     // NAME SIZE
     document.getElementById("leftName").style.fontSize = s.left.nameSize + "px";
     document.getElementById("rightName").style.fontSize = s.right.nameSize + "px";
-  }
-
-  // SETTINGS SYNC (optional safe)
-  if (document.getElementById("leftName") && document.getElementById("leftName").tagName === "INPUT") {
-    document.getElementById("leftName").value = s.left.name;
-    document.getElementById("rightName").value = s.right.name;
   }
 });
 
@@ -51,6 +47,12 @@ function roundChange(delta) {
 function setRound() {
   const val = document.getElementById("roundInput").value;
   socket.emit("roundSet", val);
+}
+
+// 🔥 GAME SET
+function setGame() {
+  const val = document.getElementById("gameInput").value;
+  socket.emit("gameSet", val);
 }
 
 // TIMER
