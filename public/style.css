@@ -1,79 +1,100 @@
 html, body {
   margin: 0;
-  padding: 0;
   background: transparent;
   font-family: Arial;
   overflow: hidden;
   color: white;
 }
 
-/* OVERLAY */
-#overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.top {
+#timer {
   position: absolute;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 34px;
+  font-size: 32px;
   color: #00aaff;
-  text-shadow: 0 0 10px #00aaff;
 }
 
 .mid {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%,-50%);
   display: flex;
   gap: 140px;
-  align-items: center;
 }
 
-/* LEFT BOX */
+.team {
+  padding: 20px 60px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.4);
+}
+
 #leftBox {
-  padding: 25px 60px;
   border: 3px solid orange;
-  border-radius: 14px;
-  background: rgba(0,0,0,0.35);
-  box-shadow: 0 0 25px rgba(255,140,0,0.5);
 }
 
-/* RIGHT BOX */
 #rightBox {
-  padding: 25px 60px;
   border: 3px solid #00aaff;
-  border-radius: 14px;
-  background: rgba(0,0,0,0.35);
-  box-shadow: 0 0 25px rgba(0,170,255,0.5);
 }
 
-/* TEXT */
 .name {
-  font-family: "Comic Sans MS", Arial;
+  font-family: "Comic Sans MS";
   color: black;
-  text-shadow: 2px 2px 0px white;
+  text-shadow: 2px 2px white;
 }
 
 .score {
   font-size: 80px;
-  font-weight: bold;
-  color: white;
 }
 
-/* CENTER */
-.center {
-  text-align: center;
+/* 🎬 TICKER */
+.ticker {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  overflow: hidden;
+  background: red;
+  border-top: 3px solid white;
+  border-bottom: 3px solid white;
+}
+
+#gameText {
+  white-space: nowrap;
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll 10s linear infinite;
+  font-family: "Comic Sans MS";
+  font-size: 24px;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* 🏆 WINNER */
+.winner {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 60px;
+  background: gold;
+  color: black;
+  padding: 20px 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px gold;
+}
+
+.hidden {
+  display: none;
 }
 
 /* SETTINGS */
 .panel {
   padding: 20px;
-  background: radial-gradient(circle at top, #0a0f2a, #000);
+  background: radial-gradient(#0a0f2a,#000);
   min-height: 100vh;
 }
 
@@ -81,30 +102,12 @@ html, body {
   width: 900px;
   height: 260px;
   border: 2px solid #00aaff;
-  border-radius: 10px;
 }
 
-/* BUTTONS */
 button {
   margin: 5px;
-  padding: 10px 15px;
+  padding: 10px;
   background: #00aaff;
   border: none;
   border-radius: 8px;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* INPUT */
-input {
-  margin: 5px;
-  padding: 5px;
-}
-
-.gameText {
-  margin-top: 10px;
-  font-size: 18px;
-  color: #00aaff;
-  opacity: 0.9;
 }
