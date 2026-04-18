@@ -6,83 +6,63 @@ html, body {
   color: white;
 }
 
-/* TIMER */
-#timer {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 32px;
-  color: #00aaff;
-}
-
-/* MAIN CENTER BLOCK */
 .main {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
   display: flex;
-  align-items: center;
-  gap: 80px;
+  gap: 60px;
 }
 
-/* TEAMS */
 .team {
   padding: 20px 50px;
   background: rgba(0,0,0,0.4);
   border-radius: 12px;
 }
 
-#leftBox {
-  border: 3px solid orange;
-}
+#leftBox { border: 3px solid orange; }
+#rightBox { border: 3px solid #00aaff; }
 
-#rightBox {
-  border: 3px solid #00aaff;
-}
-
-/* TEXT */
 .name {
   font-family: "Comic Sans MS";
   color: black;
   text-shadow: 2px 2px white;
 }
 
-.score {
-  font-size: 70px;
+.scoreWrap {
+  position: relative;
+  overflow: hidden;
+  height: 80px;
 }
 
-/* CENTER BLOCK */
+.score {
+  font-size: 70px;
+  transition: transform 0.3s;
+}
+
 .centerBlock {
   text-align: center;
 }
 
-/* 🔥 GAME BAR (JETZT KOMPAKT) */
 .gameBar {
   margin-top: 10px;
-  width: 260px;
+  width: 220px;
   overflow: hidden;
   background: red;
   border-radius: 10px;
-  border: 2px solid white;
 }
 
 #gameText {
   white-space: nowrap;
-  display: inline-block;
-  padding-left: 100%;
   animation: scroll 8s linear infinite;
-  font-family: "Comic Sans MS";
 }
 
-/* SCROLL */
 @keyframes scroll {
-  0% { transform: translateX(0); }
+  0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
 }
 
-/* WINNER */
 .winner {
   position: absolute;
   top: 40%;
@@ -91,23 +71,7 @@ html, body {
   font-size: 50px;
   background: gold;
   color: black;
-  padding: 20px 40px;
-  border-radius: 15px;
-}
-
-.hidden {
-  display: none;
-}
-
-/* SETTINGS */
-.panel {
   padding: 20px;
-  background: radial-gradient(#0a0f2a,#000);
-  min-height: 100vh;
 }
 
-.preview {
-  width: 800px;
-  height: 240px;
-  border: 2px solid #00aaff;
-}
+.hidden { display:none; }
