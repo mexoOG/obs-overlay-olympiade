@@ -1,28 +1,27 @@
 const socket = io();
 
-/* 🔥 SCORE ANIMATION */
 function animateScore(id, newValue) {
   const el = document.getElementById(id);
   const old = Number(el.textContent);
 
   if (old === newValue) return;
 
+  const wrap = el.parentNode;
+
   const newEl = document.createElement("div");
-  newEl.className = "score";
+  newEl.className = "score scoreAnim";
   newEl.textContent = newValue;
 
-  newEl.style.position = "absolute";
-  newEl.style.left = "0";
-  newEl.style.right = "0";
+  // Richtung bestimmen
+  if (newValue > old) {
+    newEl.style.transform = "translateY(100%)";
+  } else {
+    newEl.style.transform = "translateY(-100%)";
+  }
 
-  newEl.style.transform = newValue > old
-    ? "translateY(100%)"
-    : "translateY(-100%)";
-
-  el.parentNode.appendChild(newEl);
+  wrap.appendChild(newEl);
 
   setTimeout(() => {
-    newEl.style.transition = "0.3s";
     newEl.style.transform = "translateY(0)";
     el.style.transform = newValue > old
       ? "translateY(-100%)"
@@ -34,9 +33,16 @@ function animateScore(id, newValue) {
     el.style.transform = "translateY(0)";
     newEl.remove();
   }, 300);
+
+  // 🔥 GLOW EFFECT
+  wrap.classList.add("glow");
+
+  setTimeout(() => {
+    wrap.classList.remove("glow");
+  }, 500);
 }
 
-/* 🎉 REAL CONFETTI */
+/* 🎉 CONFETTI (ANIMATION) */
 function startConfetti() {
   const canvas = document.getElementById("confetti");
   const ctx = canvas.getContext("2d");
@@ -75,7 +81,6 @@ function startConfetti() {
   }, 3000);
 }
 
-/* 🔄 STATE */
 socket.on("state", (s) => {
 
   document.getElementById("leftName").textContent = s.left.name;
@@ -88,14 +93,12 @@ socket.on("state", (s) => {
   document.getElementById("gameText").textContent =
     "Aktuelles Game: " + s.game;
 
-  // TIMER
   let m = Math.floor(s.timer / 60);
   let sec = s.timer % 60;
 
   document.getElementById("timer").textContent =
     String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
 
-  // WINNER
   const w = document.getElementById("winnerBox");
 
   if (s.winner) {
@@ -107,7 +110,7 @@ socket.on("state", (s) => {
 
     w.textContent = name + " WINS!";
 
-    startConfetti(); // 🔥 ANIMATION
+    startConfetti();
   } else {
     w.classList.add("hidden");
   }
@@ -118,6 +121,10 @@ function score(side) {
   const amount = Number(document.getElementById("scoreAmount").value || 1);
   socket.emit("scoreAdd", { side, amount });
 }
+
+function timerStart(){ socket.emit("timerStart"); }
+function timerStop(){ socket.emit("timerStop"); }
+function timerReset(){ socket.emit("timerReset"); }
 
 function setGame(){
   socket.emit("gameSet", document.getElementById("gameInput").value);
@@ -141,15 +148,3 @@ function updateNames(){
     right: { name: document.getElementById("rightName").value }
   });
 }
-
-function updateSize(){
-  socket.emit("update", {
-    left: { nameSize: document.getElementById("leftSize").value },
-    right: { nameSize: document.getElementById("rightSize").value }
-  });
-}
-
-/* 🔥 TIMER */
-function timerStart(){ socket.emit("timerStart"); }
-function timerStop(){ socket.emit("timerStop"); }
-function timerReset(){ socket.emit("timerReset"); }
