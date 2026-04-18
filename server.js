@@ -1,81 +1,152 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial;
+  background: transparent;
+  color: white;
+  overflow: hidden;
+}
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+/* 🔥 SETTINGS DESIGN FIX */
+.panel {
+  min-height: 100vh;
+  padding: 20px;
+  background: radial-gradient(circle at top, #0a0f2a, #000);
+}
 
-app.use(express.static("public"));
+/* PREVIEW */
+.preview {
+  width: 900px;
+  height: 260px;
+  border: 2px solid #00aaff;
+  border-radius: 10px;
+}
 
-let state = {
-  left: { name: "Marlov", score: 0, nameSize: 32 },
-  right: { name: "Marlon", score: 0, nameSize: 32 },
-  round: 1,
-  game: "Game 1",
-  winner: null,
-  winPoints: 5, // 🔥 NEU
-  timer: 0,
-  timerRunning: false
-};
+/* BUTTONS */
+button {
+  margin: 5px;
+  padding: 10px 15px;
+  background: #00aaff;
+  border: none;
+  border-radius: 8px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-setInterval(() => {
-  if (state.timerRunning) {
-    state.timer++;
-    io.emit("state", state);
-  }
-}, 1000);
+/* INPUT */
+input {
+  margin: 5px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+}
 
-io.on("connection", (socket) => {
-  socket.emit("state", state);
+/* 🔥 TIMER (JETZT DEFINITIV SICHTBAR) */
+#timer {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 36px;
+  color: #00aaff;
+  text-shadow: 0 0 12px #00aaff;
+  z-index: 9999;
+}
 
-  socket.on("scoreAdd", ({ side, amount }) => {
-    if (state.winner) return;
+/* MAIN CENTER */
+.main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  gap: 80px;
+  align-items: center;
+}
 
-    state[side].score += Number(amount);
-    if (state[side].score < 0) state[side].score = 0;
+/* TEAM BOXES */
+.team {
+  padding: 20px 50px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 12px;
+}
 
-    // 🔥 AUTO WIN
-    if (state[side].score >= state.winPoints) {
-      state.winner = side;
-    }
+#leftBox {
+  border: 3px solid orange;
+}
 
-    io.emit("state", state);
-  });
+#rightBox {
+  border: 3px solid #00aaff;
+}
 
-  socket.on("setWinPoints", (v) => {
-    state.winPoints = Math.max(1, Number(v));
-    io.emit("state", state);
-  });
+/* TEXT */
+.name {
+  font-family: "Comic Sans MS";
+  color: black;
+  text-shadow: 2px 2px white;
+}
 
-  socket.on("roundChange", (d) => {
-    state.round += d;
-    if (state.round < 1) state.round = 1;
-    io.emit("state", state);
-  });
+.scoreWrap {
+  position: relative;
+  height: 80px;
+  overflow: hidden;
+}
 
-  socket.on("gameSet", (v) => {
-    state.game = v;
-    io.emit("state", state);
-  });
+.score {
+  font-size: 70px;
+}
 
-  socket.on("setWinner", (side) => {
-    state.winner = side;
-    io.emit("state", state);
-  });
+/* CENTER */
+.centerBlock {
+  text-align: center;
+}
 
-  socket.on("clearWinner", () => {
-    state.winner = null;
-    state.left.score = 0;
-    state.right.score = 0;
-    io.emit("state", state);
-  });
+.roundLabel {
+  font-size: 18px;
+  opacity: 0.7;
+}
 
-  socket.on("update", (data) => {
-    state.left = { ...state.left, ...data.left };
-    state.right = { ...state.right, ...data.right };
-    io.emit("state", state);
-  });
-});
+#round {
+  font-size: 42px;
+}
 
-server.listen(3000);
+/* GAME BAR */
+.gameBar {
+  margin-top: 10px;
+  width: 240px;
+  overflow: hidden;
+  background: red;
+  border-radius: 10px;
+  border: 2px solid white;
+}
+
+#gameText {
+  white-space: nowrap;
+  display: inline-block;
+  animation: scroll 8s linear infinite;
+  font-family: "Comic Sans MS";
+}
+
+/* SCROLL */
+@keyframes scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* WINNER */
+.winner {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 50px;
+  background: gold;
+  color: black;
+  padding: 20px 40px;
+  border-radius: 15px;
+}
+
+.hidden {
+  display: none;
+}
