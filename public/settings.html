@@ -13,11 +13,11 @@
 <iframe src="/overlay.html" class="preview"></iframe>
 
 <h2>LEFT</h2>
-<input id="leftName">
+<input id="leftName" oninput="updateNames()">
 <input type="range" id="leftSize" min="20" max="80">
 
 <h2>RIGHT</h2>
-<input id="rightName">
+<input id="rightName" oninput="updateNames()">
 <input type="range" id="rightSize" min="20" max="80">
 
 <hr>
@@ -28,30 +28,21 @@
 
 <hr>
 
-<h2>ROUND</h2>
-<button onclick="roundChange(-1)">-</button>
-<button onclick="roundChange(1)">+</button>
+<h2>WIN POINTS</h2>
+<input id="winPoints" placeholder="z.B. 5">
+<button onclick="setWin()">SET</button>
 
 <hr>
 
 <h2>SCORE</h2>
-<input id="scoreAmount" placeholder="z.B. 3">
+<input id="scoreAmount" placeholder="z.B. 1 oder -1">
 
 <button onclick="score('left')">Left</button>
 <button onclick="score('right')">Right</button>
 
 <hr>
 
-<h2>WINNER</h2>
-<button onclick="winner('left')">Left</button>
-<button onclick="winner('right')">Right</button>
-<button onclick="clearWinner()">Clear</button>
-
-<hr>
-
-<button onclick="timerStart()">Start</button>
-<button onclick="timerStop()">Stop</button>
-<button onclick="timerReset()">Reset</button>
+<button onclick="clearWinner()">RESET MATCH</button>
 
 </div>
 
