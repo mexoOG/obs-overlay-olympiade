@@ -12,12 +12,12 @@ let state = {
   left: { name: "Marlov", score: 0, nameSize: 32 },
   right: { name: "Marlon", score: 0, nameSize: 32 },
   round: 1,
-  game: "Game 1", // 🔥 NEU
+  game: "Game 1",
+  winner: null,
   timer: 0,
   timerRunning: false
 };
 
-// TIMER
 setInterval(() => {
   if (state.timerRunning) {
     state.timer++;
@@ -34,20 +34,29 @@ io.on("connection", (socket) => {
     io.emit("state", state);
   });
 
-  socket.on("roundChange", (delta) => {
-    state.round += Number(delta);
+  socket.on("roundChange", (d) => {
+    state.round += d;
     if (state.round < 1) state.round = 1;
     io.emit("state", state);
   });
 
-  socket.on("roundSet", (value) => {
-    state.round = Math.max(1, Number(value));
+  socket.on("roundSet", (v) => {
+    state.round = Math.max(1, Number(v));
     io.emit("state", state);
   });
 
-  // 🔥 GAME SET
-  socket.on("gameSet", (value) => {
-    state.game = value || "";
+  socket.on("gameSet", (v) => {
+    state.game = v;
+    io.emit("state", state);
+  });
+
+  socket.on("setWinner", (side) => {
+    state.winner = side;
+    io.emit("state", state);
+  });
+
+  socket.on("clearWinner", () => {
+    state.winner = null;
     io.emit("state", state);
   });
 
@@ -66,4 +75,4 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => console.log("RUNNING"));
+server.listen(3000);
