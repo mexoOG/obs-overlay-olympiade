@@ -8,23 +8,33 @@
 
 <div class="panel">
 
-<h1>SETTINGS</h1>
+<h1>⚙ SETTINGS PANEL</h1>
 
 <iframe src="/overlay.html" class="preview"></iframe>
 
-<h2>LEFT</h2>
-<input id="leftName" oninput="updateNames()">
-<input type="range" id="leftSize" min="20" max="80">
+<hr>
 
-<h2>RIGHT</h2>
-<input id="rightName" oninput="updateNames()">
-<input type="range" id="rightSize" min="20" max="80">
+<h2>LEFT TEAM</h2>
+<input id="leftName" placeholder="Name" oninput="updateNames()">
+<label>Name Size</label>
+<input type="range" id="leftSize" min="20" max="80" onchange="updateSize()">
+
+<h2>RIGHT TEAM</h2>
+<input id="rightName" placeholder="Name" oninput="updateNames()">
+<label>Name Size</label>
+<input type="range" id="rightSize" min="20" max="80" onchange="updateSize()">
 
 <hr>
 
-<h2>GAME</h2>
-<input id="gameInput">
+<h2>AKTUELLES GAME</h2>
+<input id="gameInput" placeholder="z.B. FIFA / Mario Kart">
 <button onclick="setGame()">SET</button>
+
+<hr>
+
+<h2>RUNDE</h2>
+<button onclick="roundChange(-1)">-</button>
+<button onclick="roundChange(1)">+</button>
 
 <hr>
 
@@ -42,7 +52,18 @@
 
 <hr>
 
-<button onclick="clearWinner()">RESET MATCH</button>
+<h2>WINNER</h2>
+<button onclick="winner('left')">Winner Left</button>
+<button onclick="winner('right')">Winner Right</button>
+<button onclick="clearWinner()">Reset Match</button>
+
+<hr>
+
+<!-- 🔥 TIMER FIX -->
+<h2>TIMER</h2>
+<button onclick="timerStart()">START</button>
+<button onclick="timerStop()">STOP</button>
+<button onclick="timerReset()">RESET</button>
 
 </div>
 
