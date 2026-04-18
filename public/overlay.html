@@ -8,37 +8,51 @@
 
 <div id="overlay">
 
-<div id="timer">00:00</div>
+  <!-- 🔥 TIMER -->
+  <div id="timer">00:00</div>
 
-<div class="main">
+  <!-- MAIN BLOCK -->
+  <div class="main">
 
-  <div class="team" id="leftBox">
-    <div class="name" id="leftName"></div>
-    <div class="scoreWrap">
-      <div class="score" id="leftScore">0</div>
+    <!-- LEFT -->
+    <div class="team" id="leftBox">
+      <div class="name" id="leftName">Player 1</div>
+
+      <div class="scoreWrap">
+        <div class="score" id="leftScore">0</div>
+      </div>
     </div>
+
+    <!-- CENTER -->
+    <div class="centerBlock">
+
+      <!-- 🔥 RUNDE -->
+      <div class="roundLabel">RUNDE</div>
+      <div id="round">1</div>
+
+      <!-- 🎬 GAME BAR -->
+      <div class="gameBar">
+        <div id="gameText">Aktuelles Game: -</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="team" id="rightBox">
+      <div class="name" id="rightName">Player 2</div>
+
+      <div class="scoreWrap">
+        <div class="score" id="rightScore">0</div>
+      </div>
+    </div>
+
   </div>
 
-  <div class="centerBlock">
-    <div id="round">1</div>
+  <!-- 🏆 WINNER -->
+  <div id="winnerBox" class="winner hidden"></div>
 
-    <div class="gameBar">
-      <div id="gameText">Aktuelles Game</div>
-    </div>
-  </div>
-
-  <div class="team" id="rightBox">
-    <div class="name" id="rightName"></div>
-    <div class="scoreWrap">
-      <div class="score" id="rightScore">0</div>
-    </div>
-  </div>
-
-</div>
-
-<div id="winnerBox" class="winner hidden"></div>
-
-<canvas id="confetti"></canvas>
+  <!-- 🎉 CONFETTI -->
+  <canvas id="confetti"></canvas>
 
 </div>
 
