@@ -1,51 +1,89 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
 
-<div class="panel">
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
-<h1>⚙ SETTINGS PANEL</h1>
+app.use(express.static("public"));
 
-<iframe src="/overlay.html" class="preview"></iframe>
+let state = {
+  left: { name: "Marlov", score: 0, color: "#ffa500" },
+  right: { name: "Marlon", score: 0, color: "#00aaff" },
+  round: 1,
+  game: "Game 1",
+  winner: null,
+  winPoints: 5,
+  timer: 0,
+  timerRunning: false
+};
 
-<hr>
+setInterval(() => {
+  if (state.timerRunning) {
+    state.timer++;
+    io.emit("state", state);
+  }
+}, 1000);
 
-<h2>LEFT TEAM</h2>
-<input id="leftName" placeholder="Name" oninput="updateNames()">
+io.on("connection", (socket) => {
+  socket.emit("state", state);
 
-<label>Rahmenfarbe</label>
-<input type="color" id="leftColor" value="#ffa500" onchange="updateColors()">
+  socket.on("scoreAdd", ({ side, amount }) => {
+    if (state.winner) return;
 
-<hr>
+    state[side].score += Number(amount);
+    if (state[side].score < 0) state[side].score = 0;
 
-<h2>RIGHT TEAM</h2>
-<input id="rightName" placeholder="Name" oninput="updateNames()">
+    if (state[side].score >= state.winPoints) {
+      state.winner = side;
+    }
 
-<label>Rahmenfarbe</label>
-<input type="color" id="rightColor" value="#00aaff" onchange="updateColors()">
+    io.emit("state", state);
+  });
 
-<hr>
+  socket.on("timerStart", () => state.timerRunning = true);
+  socket.on("timerStop", () => state.timerRunning = false);
 
-<h2>SCORE</h2>
-<input id="scoreAmount" placeholder="z.B. 1 oder -1">
-<button onclick="score('left')">Left</button>
-<button onclick="score('right')">Right</button>
+  socket.on("timerReset", () => {
+    state.timer = 0;
+    io.emit("state", state);
+  });
 
-<hr>
+  socket.on("roundChange", (d) => {
+    state.round += d;
+    if (state.round < 1) state.round = 1;
+    io.emit("state", state);
+  });
 
-<h2>TIMER</h2>
-<button onclick="timerStart()">START</button>
-<button onclick="timerStop()">STOP</button>
-<button onclick="timerReset()">RESET</button>
+  socket.on("gameSet", (v) => {
+    state.game = v;
+    io.emit("state", state);
+  });
 
-</div>
+  socket.on("setWinPoints", (v) => {
+    state.winPoints = Math.max(1, Number(v));
+    io.emit("state", state);
+  });
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="client.js"></script>
+  socket.on("setWinner", (side) => {
+    state.winner = side;
+    io.emit("state", state);
+  });
 
-</body>
-</html>
+  socket.on("clearWinner", () => {
+    state.winner = null;
+    state.left.score = 0;
+    state.right.score = 0;
+    state.timer = 0;
+    io.emit("state", state);
+  });
+
+  socket.on("update", (data) => {
+    state.left = { ...state.left, ...data.left };
+    state.right = { ...state.right, ...data.right };
+    io.emit("state", state);
+  });
+});
+
+server.listen(3000, () => console.log("RUNNING"));
