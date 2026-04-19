@@ -1,5 +1,6 @@
 const socket = io();
 
+/* SCORE ANIMATION + GLOW */
 function animateScore(id, newValue) {
   const el = document.getElementById(id);
   const old = Number(el.textContent);
@@ -12,7 +13,6 @@ function animateScore(id, newValue) {
   newEl.className = "score scoreAnim";
   newEl.textContent = newValue;
 
-  // Richtung bestimmen
   if (newValue > old) {
     newEl.style.transform = "translateY(100%)";
   } else {
@@ -34,17 +34,15 @@ function animateScore(id, newValue) {
     newEl.remove();
   }, 300);
 
-  // 🔥 GLOW EFFECT
   wrap.classList.add("glow");
-
-  setTimeout(() => {
-    wrap.classList.remove("glow");
-  }, 500);
+  setTimeout(() => wrap.classList.remove("glow"), 500);
 }
 
-/* 🎉 CONFETTI (ANIMATION) */
+/* CONFETTI */
 function startConfetti() {
   const canvas = document.getElementById("confetti");
+  if (!canvas) return;
+
   const ctx = canvas.getContext("2d");
 
   canvas.width = window.innerWidth;
@@ -81,6 +79,7 @@ function startConfetti() {
   }, 3000);
 }
 
+/* STATE */
 socket.on("state", (s) => {
 
   document.getElementById("leftName").textContent = s.left.name;
@@ -99,6 +98,11 @@ socket.on("state", (s) => {
   document.getElementById("timer").textContent =
     String(m).padStart(2,"0")+":"+String(sec).padStart(2,"0");
 
+  /* Farben */
+  document.getElementById("leftBox").style.borderColor = s.left.color;
+  document.getElementById("rightBox").style.borderColor = s.right.color;
+
+  /* WINNER */
   const w = document.getElementById("winnerBox");
 
   if (s.winner) {
@@ -146,5 +150,12 @@ function updateNames(){
   socket.emit("update", {
     left: { name: document.getElementById("leftName").value },
     right: { name: document.getElementById("rightName").value }
+  });
+}
+
+function updateColors(){
+  socket.emit("update", {
+    left: { color: document.getElementById("leftColor").value },
+    right: { color: document.getElementById("rightColor").value }
   });
 }
